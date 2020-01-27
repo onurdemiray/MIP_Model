@@ -150,4 +150,53 @@ public class Read {
         }
         return tasks;
     }
+
+    public ArrayList<Team> read_teams() {
+
+        /*
+        Read and creates teams
+         */
+        ArrayList<Team> teams = new ArrayList<Team>();
+
+        XSSFSheet sheet = (XSSFSheet) workbook.getSheet("crew-skill");
+        Iterator<Row> iterator = sheet.iterator();
+
+        for (int which_row = 0; iterator.hasNext(); which_row++) {
+            Row nextRow = iterator.next();
+            if (which_row == 0) {
+                continue;
+            }
+            Iterator<Cell> cellIterator = nextRow.cellIterator();
+            int[] current_skill = new int[n_skill];
+            for (int which_col = 0; cellIterator.hasNext(); which_col++) {
+                Cell cell = cellIterator.next();
+                if (which_col == 0) {
+                    continue;
+                }
+                current_skill[which_col - 1] = (int) cell.getNumericCellValue();
+            }
+            int teamID = which_row;
+            teams.add(new Team(teamID, current_skill));
+        }
+        return teams;
+    }
+
+    public int[][] read_travel_times(){
+        int[][] travel_times = new int[n_task][n_task];
+        XSSFSheet sheet = (XSSFSheet) workbook.getSheet("travel_time"); // which sheet in excel
+        Iterator<Row> iterator = sheet.iterator(); // create row iterator
+        for (int i = 0; iterator.hasNext(); i++) {
+            Row nextRow = iterator.next();
+            Iterator<Cell> cellIterator = nextRow.cellIterator(); // create cell
+            if(i>=1){
+                for (int j = 0; cellIterator.hasNext(); j++) {
+                    Cell cell = cellIterator.next();
+                    if(j>=1){
+                        travel_times[i-1][j-1]=(int)cell.getNumericCellValue();
+                    }
+                }
+            }
+        }
+        return travel_times;
+    }
 }

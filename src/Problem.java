@@ -14,6 +14,9 @@ public class Problem {
     int n_skill;
 
     ArrayList<Task> tasks;
+    ArrayList<Team> teams;
+
+    int[][] travel_times;  // excludes depot node
 
     public Problem(String file) {
 
@@ -23,10 +26,16 @@ public class Problem {
         n_team = _in_.n_team;
         n_skill = _in_.n_skill;
         tasks = _in_.read_tasks();
+        teams = _in_.read_teams();
+        travel_times = _in_.read_travel_times();
     }
 
     public ArrayList<Task> getTasks() {
         return tasks;
+    }
+
+    public ArrayList<Team> getTeams() {
+        return teams;
     }
 
     public void display_tasks() {
@@ -49,4 +58,35 @@ public class Problem {
         }
     }
 
+    public void display_teams() {
+
+        for (int i = 0; i < n_team; i++) {
+            Team t = teams.get(i);
+            StringJoiner joiner = new StringJoiner("");
+            for (int q = 0; q < n_skill; q++) {
+                String temp = String.valueOf(t.team_skill_cap[q]);
+                if (q < n_skill - 1) {
+                    joiner.add(temp + "-");
+                } else {
+                    joiner.add(temp);
+                }
+            }
+            String skills = joiner.toString();
+            out.print("Team ID: " + t.teamID + "  Skills: " + skills);
+            out.println();
+        }
+    }
+
+    public void display_travel_times(){
+        for(int i=0;i<n_task;i++){
+            for(int j=0;j<n_task;j++){
+                if(j<n_task-1){
+                    out.print(travel_times[i][j]+"-");
+                }else{
+                    out.print(travel_times[i][j]);
+                }
+            }
+            out.println();
+        }
+    }
 }
