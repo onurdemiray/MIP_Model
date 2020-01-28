@@ -5,8 +5,6 @@ import static java.lang.System.out;
 
 public class Problem {
 
-    // todo: read, get and display team code
-
     Read _in_;
 
     int n_task;
